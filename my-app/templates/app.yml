@@ -1,0 +1,31 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{.Values.Chart.name}}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{.Values.Chart.name}}
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: {{.Values.Chart.name}}
+    spec:
+      containers:
+      - name: {{.Values.Chart.name}}
+        image: {{.Values.imageRegistry}}/{{.Values.Chart.name}}:{{.Values.Chart.appVersion}}
+        ports:
+        - name: http-server
+          containerPort: {{.Values.containerPort}}
+        env:
+        - name: INFRA_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: env-vars-configmap
+              key: INFRA_ENV
+        - name: VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: env-vars-configmap
+              key: VERSION

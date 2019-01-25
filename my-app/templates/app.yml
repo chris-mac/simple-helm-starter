@@ -1,20 +1,20 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{.Values.Chart.name}}-deployment
+  name: {{.Chart.Name}}-deployment
 spec:
   selector:
     matchLabels:
-      app: {{.Values.Chart.name}}
+      app: {{.Chart.Name}}
   replicas: 2 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: {{.Values.Chart.name}}
+        app: {{.Chart.Name}}
     spec:
       containers:
-      - name: {{.Values.Chart.name}}
-        image: {{.Values.imageRegistry}}/{{.Values.Chart.name}}:{{.Values.Chart.appVersion}}
+      - name: {{.Chart.Name}}
+        image: {{.Values.imageRegistry}}/{{.Chart.Name}}:{{.Chart.AppVersion}}
         ports:
         - name: http-server
           containerPort: {{.Values.containerPort}}
